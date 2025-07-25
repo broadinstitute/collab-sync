@@ -58,7 +58,7 @@ def sync_collaborators(config_dir: Path, dry_run: bool = False) -> None:
                     logger.info(f"✓ Synced {username} -> {repo} ({permission})")
                 else:
                     error_msg = result.stderr.decode()
-                    logger.error(f"✗ XXXXXFailed to sync {username} -> {repo}: {error_msg}")
+                    logger.error(f"✗ Failed to sync {username} -> {repo}: {error_msg}")
                     has_errors = True
 
     # Remove unlisted collaborators (after ensuring we have access)
