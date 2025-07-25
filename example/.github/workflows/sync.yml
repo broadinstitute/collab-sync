@@ -1,0 +1,18 @@
+name: Sync Collaborators
+on:
+  push:
+    paths: ['*.yaml']
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - name: Sync collaborators
+        env:
+          GH_TOKEN: ${{ secrets.ADMIN_PAT }}
+        run: |
+          uvx --from git+https://github.com/broadinstitute/collab-sync.git \
+            collab-sync sync example-consortium

@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "collab-sync"
+version = "1.0.0"
+description = "GitHub collaborator and repository management for consortiums"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "Broad Institute" }
+]
+dependencies = [
+    "pyyaml",
+    "typer",
+]
+
+[project.scripts]
+collab-sync = "collab_sync.cli:app"
+
+[tool.ruff]
+line-length = 150
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

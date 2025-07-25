@@ -1,0 +1,50 @@
+# Collaborators Registry
+#
+# Format:
+#   - username: GitHub username
+#     permissions:
+#       repo-name: pull|push|admin
+#       another-repo: pull|push|admin
+
+# Protected admins who will never be removed
+protected_admins:
+  - consortium-lead
+  - backup-admin
+
+# List of repos managed by this script
+# Only these repos will be modified/scanned
+managed_repos:
+  - consortium-data
+  - consortium-analysis
+  - consortium-tools
+
+collaborators:
+  # Consortium leadership
+  - username: consortium-lead
+    permissions:
+      consortium-data: admin
+      consortium-analysis: admin
+      consortium-tools: admin
+
+  - username: backup-admin
+    permissions:
+      consortium-data: admin
+      consortium-analysis: admin
+      consortium-tools: admin
+
+  # Data team
+  - username: data-scientist-1
+    permissions:
+      consortium-data: push
+      consortium-analysis: push
+
+  - username: data-scientist-2
+    permissions:
+      consortium-data: push
+      consortium-analysis: pull
+
+  # External collaborators
+  - username: external-researcher
+    permissions:
+      consortium-data: pull
+      consortium-analysis: pull

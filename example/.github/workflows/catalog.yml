@@ -1,0 +1,32 @@
+name: Update Catalog
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+  workflow_dispatch:
+  push:
+    paths: ['repositories.yaml']
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - name: Update visibility and generate catalog
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Update visibility from GitHub
+          uvx --from git+https://github.com/broadinstitute/collab-sync.git \
+            collab-sync update example-consortium
+
+          # Generate catalog page
+          uvx --from git+https://github.com/broadinstitute/collab-sync.git \
+            collab-sync catalog example-consortium
+
+          # Commit changes if any
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git diff --staged --quiet || git commit -m "Update catalog"
+          git push

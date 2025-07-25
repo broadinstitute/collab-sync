@@ -1,0 +1,20 @@
+repositories:
+  - name: consortium-data
+    description: "Primary data repository with processed datasets"
+    type: data
+    visibility: private
+
+  - name: consortium-analysis
+    description: "Analysis pipelines and notebooks"
+    type: analysis
+    visibility: private
+
+  - name: consortium-tools
+    description: "Shared utilities and tools"
+    type: tools
+    visibility: public
+
+  - name: consortium-website
+    description: "Public-facing consortium website"
+    type: website
+    visibility: public
