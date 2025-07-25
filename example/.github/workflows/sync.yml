@@ -14,5 +14,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.ADMIN_PAT }}
         run: |
-          uvx --from git+https://github.com/broadinstitute/collab-sync.git \
+          uvx --refresh-package collab-sync --from git+https://github.com/broadinstitute/collab-sync.git \
             collab-sync sync
