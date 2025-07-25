@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 
 
-def generate_catalog(org: str, config_dir: Path) -> None:
+def generate_catalog(config_dir: Path) -> None:
     """Generate markdown catalog page from repositories.yaml."""
     # Load repository data
     repos_path = config_dir / "repositories.yaml"
@@ -17,11 +17,13 @@ def generate_catalog(org: str, config_dir: Path) -> None:
     with repos_path.open() as f:
         data = yaml.safe_load(f)
 
-    # Get consortium name from config or use org name
-    consortium_name = org.replace("-", " ").title()
+    org = data.get("organization")
+    if not org:
+        print("Error: Missing 'organization' field in repositories.yaml")
+        return
 
     # Generate markdown content
-    content = f"""# {consortium_name} Repository Catalog
+    content = f"""# Repository Catalog
 
 *Last updated: {datetime.now().strftime("%Y-%m-%d %H:%M UTC")}*
 
@@ -61,10 +63,10 @@ def generate_catalog(org: str, config_dir: Path) -> None:
         content += f"| [{name}](https://github.com/{org}/{name}) | {type_badge} | {badge} | {description} |\n"
 
     # Add footer
-    content += f"""
+    content += """
 ---
 
-This catalog is automatically generated from the [{consortium_name} Management](https://github.com/{org}/{org}-collab-sync) repository.
+This catalog is automatically generated.
 """
 
     # Save to index.md (for GitHub Pages)

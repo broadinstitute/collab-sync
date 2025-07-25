@@ -27,19 +27,27 @@ uvx --from /path/to/collab-sync collab-sync --help
 
 ```bash
 # Sync collaborator permissions
-collab-sync sync <org-name>
+collab-sync sync
 
 # Preview changes without applying them
-collab-sync sync <org-name> --dry-run
+collab-sync sync --dry-run
 
 # Update repository visibility from GitHub
-collab-sync update <org-name>
+collab-sync update
 
 # Generate repository catalog page
-collab-sync catalog <org-name>
+collab-sync catalog
 
 # Specify custom config directory
-collab-sync sync <org-name> --config-dir /path/to/config
+collab-sync sync --config-dir /path/to/config
+```
+
+## Configuration
+
+Both `collaborators.yaml` and `repositories.yaml` must include an `organization` field specifying your GitHub organization:
+
+```yaml
+organization: your-github-org
 ```
 
 ## Quick Start
@@ -48,7 +56,8 @@ To set up `collab-sync` for your consortium:
 
 1. Copy the [`example/`](example/) directory to your new repository
 2. Follow the setup instructions in [`example/README.md`](example/README.md)
-3. Customize the YAML files for your organization
+3. Update the `organization` field in both YAML files
+4. Customize the rest of the YAML files for your needs
 
 The example directory contains all needed files and complete setup instructions.
 

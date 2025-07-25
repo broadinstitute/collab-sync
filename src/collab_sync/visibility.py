@@ -18,7 +18,7 @@ def get_repo_visibility(org: str, repo_name: str) -> str | None:
         return None
 
 
-def update_visibility(org: str, config_dir: Path) -> None:
+def update_visibility(config_dir: Path) -> None:
     """Update repository visibility from GitHub API."""
     # Load current YAML
     repos_path = config_dir / "repositories.yaml"
@@ -28,6 +28,11 @@ def update_visibility(org: str, config_dir: Path) -> None:
 
     with repos_path.open() as f:
         data = yaml.safe_load(f)
+
+    org = data.get("organization")
+    if not org:
+        print("Error: Missing 'organization' field in repositories.yaml")
+        return
 
     updated = False
 

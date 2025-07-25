@@ -13,30 +13,27 @@ app = typer.Typer(help="GitHub collaborator and repository management for consor
 
 @app.command()
 def sync(
-    org: str = typer.Argument(..., help="GitHub organization name"),
     config_dir: Path = typer.Option(Path("."), "--config-dir", "-c", help="Directory containing YAML config files"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Preview changes without applying them"),
 ):
     """Sync GitHub collaborators from YAML configuration."""
-    sync_collaborators(org, config_dir, dry_run)
+    sync_collaborators(config_dir, dry_run)
 
 
 @app.command()
 def update(
-    org: str = typer.Argument(..., help="GitHub organization name"),
     config_dir: Path = typer.Option(Path("."), "--config-dir", "-c", help="Directory containing YAML config files"),
 ):
     """Update repository visibility from GitHub."""
-    update_visibility(org, config_dir)
+    update_visibility(config_dir)
 
 
 @app.command()
 def catalog(
-    org: str = typer.Argument(..., help="GitHub organization name"),
     config_dir: Path = typer.Option(Path("."), "--config-dir", "-c", help="Directory containing YAML config files"),
 ):
     """Generate repository catalog page."""
-    generate_catalog(org, config_dir)
+    generate_catalog(config_dir)
 
 
 if __name__ == "__main__":

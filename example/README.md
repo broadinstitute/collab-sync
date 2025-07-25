@@ -12,9 +12,9 @@ View at: https://[YOUR-ORG].github.io/[YOUR-REPO-NAME]/
 
 ### Initial Setup Steps
 
-1. **Update organization name** in both workflow files:
-   - In `.github/workflows/sync.yml`: Change `example-consortium` to your org name
-   - In `.github/workflows/catalog.yml`: Change `example-consortium` to your org name
+1. **Update organization name** in both YAML files:
+   - In `collaborators.yaml`: Change `YOUR-ORG-NAME` to your GitHub organization
+   - In `repositories.yaml`: Change `YOUR-ORG-NAME` to your GitHub organization
 
 2. **Add required secrets** to your repository:
    - Go to Settings → Secrets and variables → Actions

@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)-8s %(message)s", st
 logger = logging.getLogger(__name__)
 
 
-def sync_collaborators(org: str, config_dir: Path, dry_run: bool = False) -> None:
+def sync_collaborators(config_dir: Path, dry_run: bool = False) -> None:
     """Sync collaborators for a GitHub organization from YAML config."""
     # Load YAML
     config_path = config_dir / "collaborators.yaml"
@@ -23,6 +23,11 @@ def sync_collaborators(org: str, config_dir: Path, dry_run: bool = False) -> Non
 
     with config_path.open() as f:
         data = yaml.safe_load(f)
+
+    org = data.get("organization")
+    if not org:
+        logger.error("Missing 'organization' field in collaborators.yaml")
+        sys.exit(1)
 
     collaborators = data.get("collaborators", [])
     protected_admins = data.get("protected_admins", [])
@@ -47,12 +52,13 @@ def sync_collaborators(org: str, config_dir: Path, dry_run: bool = False) -> Non
                 logger.info(f"Would sync: {username} -> {repo} ({permission})")
             else:
                 cmd = ["gh", "api", f"repos/{org}/{repo}/collaborators/{username}", "-X", "PUT", "-f", f"permission={permission}"]
+                logger.info(f"Running: {cmd}")
                 result = subprocess.run(cmd, capture_output=True)
                 if result.returncode == 0:
                     logger.info(f"✓ Synced {username} -> {repo} ({permission})")
                 else:
                     error_msg = result.stderr.decode()
-                    logger.error(f"✗ Failed to sync {username} -> {repo}: {error_msg}")
+                    logger.error(f"✗ XXXXXFailed to sync {username} -> {repo}: {error_msg}")
                     has_errors = True
 
     # Remove unlisted collaborators (after ensuring we have access)

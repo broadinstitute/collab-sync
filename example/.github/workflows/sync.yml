@@ -15,4 +15,4 @@ jobs:
           GH_TOKEN: ${{ secrets.ADMIN_PAT }}
         run: |
           uvx --from git+https://github.com/broadinstitute/collab-sync.git \
-            collab-sync sync example-consortium
+            collab-sync sync

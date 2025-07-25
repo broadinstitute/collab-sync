@@ -1,3 +1,6 @@
+# GitHub organization
+organization: YOUR-ORG-NAME
+
 repositories:
   - name: consortium-data
     description: "Primary data repository with processed datasets"

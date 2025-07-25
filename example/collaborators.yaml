@@ -6,6 +6,9 @@
 #       repo-name: pull|push|admin
 #       another-repo: pull|push|admin
 
+# GitHub organization
+organization: YOUR-ORG-NAME
+
 # Protected admins who will never be removed
 protected_admins:
   - consortium-lead

@@ -18,11 +18,11 @@ jobs:
         run: |
           # Update visibility from GitHub
           uvx --from git+https://github.com/broadinstitute/collab-sync.git \
-            collab-sync update example-consortium
+            collab-sync update
 
           # Generate catalog page
           uvx --from git+https://github.com/broadinstitute/collab-sync.git \
-            collab-sync catalog example-consortium
+            collab-sync catalog
 
           # Commit changes if any
           git config user.name github-actions
