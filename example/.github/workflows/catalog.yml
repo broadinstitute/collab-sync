@@ -24,9 +24,26 @@ jobs:
           uvx --from git+https://github.com/broadinstitute/collab-sync.git \
             collab-sync catalog
 
-          # Commit changes if any
+          # Commit only repositories.yaml changes if any (visibility updates)
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add -A
-          git diff --staged --quiet || git commit -m "Update catalog"
+          git add repositories.yaml
+          git diff --staged --quiet || git commit -m "Update repository visibility"
           git push
+
+      - name: Deploy to GitHub Pages
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          # Create gh-pages branch if it doesn't exist
+          git checkout --orphan gh-pages || git checkout gh-pages
+
+          # Remove all tracked files
+          git rm -rf . || true
+
+          # index.md is untracked, so it's still there
+          # Just add and commit it
+          git add index.md
+          git commit -m "Update repository catalog" || true
+          git push -f origin gh-pages

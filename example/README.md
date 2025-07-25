@@ -17,13 +17,20 @@ View at: https://[YOUR-ORG].github.io/[YOUR-REPO-NAME]/
    - In `repositories.yaml`: Change `YOUR-ORG-NAME` to your GitHub organization
 
 2. **Add required secrets** to your repository:
+
+   **Option A: Using GitHub Web Interface**
    - Go to Settings → Secrets and variables → Actions
    - Add `ADMIN_PAT`: GitHub Personal Access Token with `repo` scope
+
+   **Option B: Using GitHub CLI**
+   ```bash
+   gh secret set ADMIN_PAT --repo YOUR-ORG-NAME/YOUR-REPO-NAME
+   ```
 
 3. **Enable GitHub Pages**:
    - Go to Settings → Pages
    - Source: Deploy from branch
-   - Branch: main, folder: / (root)
+   - Branch: gh-pages, folder: / (root)
    - Save
 
 4. **Customize the YAML files**:
