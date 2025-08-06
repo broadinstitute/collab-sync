@@ -41,26 +41,8 @@ def generate_catalog(config_dir: Path) -> None:
         visibility = repo.get("visibility", "unknown")
         description = repo.get("description", "No description")
 
-        # Create visibility badge
-        if visibility == "public":
-            badge = "Public"
-        elif visibility == "private":
-            badge = "Private"
-        else:
-            badge = "Unknown"
-
-        # Create type badge
-        type_badges = {
-            "data": "Data",
-            "analysis": "Analysis",
-            "metadata": "Metadata",
-            "main": "Main",
-            "management": "Management",
-        }
-        type_badge = type_badges.get(repo_type, "📁 Other")
-
         # Add table row with linked repository name
-        content += f"| [{name}](https://github.com/{org}/{name}) | {type_badge} | {badge} | {description} |\n"
+        content += f"| [{name}](https://github.com/{org}/{name}) | {repo_type} | {visibility} | {description} |\n"
 
     # Add footer
     content += """

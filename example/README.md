@@ -37,7 +37,12 @@ View at: https://[YOUR-ORG].github.io/[YOUR-REPO-NAME]/
    - Edit `collaborators.yaml` with your actual users and repositories
    - Edit `repositories.yaml` with your actual repository information
 
-5. **Update this README**:
+5. **Note about workflow files**:
+   - The `.github/workflows/` directory contains GitHub Actions workflows
+   - Do NOT modify the `collab-sync` URLs in the workflows - they should always point to `git+https://github.com/broadinstitute/collab-sync.git`
+   - These workflows will automatically fetch and run the latest version of the tool
+
+6. **Update this README**:
    - Replace `[YOUR CONSORTIUM NAME]` with your consortium name
    - Replace `[YOUR-ORG]` with your GitHub organization
    - Replace `[YOUR-REPO-NAME]` with this repository name
