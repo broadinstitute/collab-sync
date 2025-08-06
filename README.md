@@ -7,8 +7,8 @@ GitHub collaborator and repository management for consortiums.
 `collab-sync` provides a simple, declarative way to manage GitHub collaborators and maintain repository catalogs across multiple organizations. It uses YAML configuration files to define the desired state and syncs it with GitHub.
 
 **⚠️ Important:**
-- **Collaborators**: `collaborators.yaml` is authoritative. Manual changes made through GitHub's web interface will be overridden.
-- **Repository Catalog**: Descriptions in `repositories.yaml` are authoritative. Visibility is synced FROM GitHub, not TO GitHub.
+- **Collaborators**: User permissions in `collaborators.yaml` → GitHub (yaml is authoritative, GitHub changes overridden)
+- **Repository Catalog**: Repository visibility in GitHub → `repositories.yaml` (GitHub is authoritative, yaml changes overridden)
 - Only manages direct collaborators (not team members)
 
 ## Installation
