@@ -15,9 +15,10 @@ app = typer.Typer(help="GitHub collaborator and repository management for consor
 def sync(
     config_dir: Path = typer.Option(Path("."), "--config-dir", "-c", help="Directory containing YAML config files"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Preview changes without applying them"),
+    resend_expired: bool = typer.Option(False, "--resend-expired", help="Delete and resend expired invitations"),
 ):
     """Sync GitHub collaborators from YAML configuration."""
-    sync_collaborators(config_dir, dry_run)
+    sync_collaborators(config_dir, dry_run, resend_expired)
 
 
 @app.command()

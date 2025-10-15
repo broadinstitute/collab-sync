@@ -13,7 +13,39 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)-8s %(message)s", st
 logger = logging.getLogger(__name__)
 
 
-def sync_collaborators(config_dir: Path, dry_run: bool = False) -> None:
+def delete_expired_invitations(org: str, repo: str, dry_run: bool = False) -> None:
+    """Delete expired invitations for a repository."""
+    cmd = ["gh", "api", f"repos/{org}/{repo}/invitations", "--paginate"]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+
+    if result.returncode != 0:
+        logger.error(f"Failed to get invitations for {repo}: {result.stderr}")
+        return
+
+    invitations = json.loads(result.stdout)
+    expired_count = 0
+
+    for invitation in invitations:
+        if invitation.get("expired"):
+            username = invitation["invitee"]["login"]
+            invitation_id = invitation["id"]
+            expired_count += 1
+
+            if dry_run:
+                logger.info(f"Would delete expired invitation: {username} <- {repo} (ID: {invitation_id})")
+            else:
+                delete_cmd = ["gh", "api", f"repos/{org}/{repo}/invitations/{invitation_id}", "-X", "DELETE"]
+                delete_result = subprocess.run(delete_cmd, capture_output=True, text=True)
+                if delete_result.returncode == 0:
+                    logger.info(f"✓ Deleted expired invitation: {username} <- {repo}")
+                else:
+                    logger.error(f"✗ Failed to delete invitation for {username} <- {repo}: {delete_result.stderr}")
+
+    if expired_count == 0:
+        logger.info(f"No expired invitations for {repo}")
+
+
+def sync_collaborators(config_dir: Path, dry_run: bool = False, resend_expired: bool = False) -> None:
     """Sync collaborators for a GitHub organization from YAML config."""
     # Load YAML
     config_path = config_dir / "collaborators.yaml"
@@ -39,6 +71,18 @@ def sync_collaborators(config_dir: Path, dry_run: bool = False) -> None:
     logger.info(f"Managed repos: {', '.join(managed_repos)}")
     if dry_run:
         logger.info("🔍 DRY RUN MODE - No changes will be made")
+
+    # Delete expired invitations if requested
+    if resend_expired:
+        logger.info("Checking for expired invitations...")
+        all_repos = set(managed_repos) if managed_repos else set()
+        for c in collaborators:
+            permissions = c.get("permissions", {})
+            for repo in permissions.keys():
+                all_repos.add(repo)
+
+        for repo in all_repos:
+            delete_expired_invitations(org, repo, dry_run)
 
     # IMPORTANT: Ensure all collaborators FIRST before removing anyone
     # This prevents accidentally locking ourselves out
