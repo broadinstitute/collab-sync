@@ -32,6 +32,9 @@ collab-sync sync
 # Preview changes without applying them
 collab-sync sync --dry-run
 
+# Delete and resend expired invitations, then sync
+collab-sync sync --resend-expired
+
 # Update repository visibility from GitHub
 collab-sync update
 
