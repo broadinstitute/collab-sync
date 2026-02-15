@@ -39,6 +39,11 @@ def update_visibility(config_dir: Path) -> None:
     # Update visibility for each repository
     for repo in data["repositories"]:
         repo_name = repo["name"]
+
+        if repo.get("status") == "planned":
+            print(f"⏳ {repo_name}: planned (skipping)")
+            continue
+
         current_visibility = repo.get("visibility", "unknown")
 
         # Fetch actual visibility from GitHub

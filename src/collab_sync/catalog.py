@@ -31,18 +31,33 @@ def generate_catalog(config_dir: Path) -> None:
 |------------|------|------------|-------------|
 """
 
-    # Sort repositories by type, then by name
-    sorted_repos = sorted(data["repositories"], key=lambda x: (x.get("type", "other"), x["name"]))
+    # Split into existing and planned
+    existing_repos = [r for r in data["repositories"] if r.get("status") != "planned"]
+    planned_repos = [r for r in data["repositories"] if r.get("status") == "planned"]
 
-    # Add each repository as a table row
-    for repo in sorted_repos:
+    # Sort each group by type, then name
+    existing_repos.sort(key=lambda x: (x.get("type", "other"), x["name"]))
+    planned_repos.sort(key=lambda x: (x.get("paper") or "zzz", x["name"]))
+
+    # Existing repos table (with GitHub links)
+    for repo in existing_repos:
         name = repo["name"]
         repo_type = repo.get("type", "other")
         visibility = repo.get("visibility", "unknown")
         description = repo.get("description", "No description")
-
-        # Add table row with linked repository name
         content += f"| [{name}](https://github.com/{org}/{name}) | {repo_type} | {visibility} | {description} |\n"
+
+    # Planned repos table (no links, show paper ID)
+    if planned_repos:
+        content += "\n## Planned Repositories\n\n"
+        content += "| Repository | Paper | Type | Description |\n"
+        content += "|------------|-------|------|-------------|\n"
+        for repo in planned_repos:
+            name = repo["name"]
+            paper = repo.get("paper", "")
+            repo_type = repo.get("type", "other")
+            description = repo.get("description", "No description")
+            content += f"| {name} | {paper} | {repo_type} | {description} |\n"
 
     # Add footer
     content += """

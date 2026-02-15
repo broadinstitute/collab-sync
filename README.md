@@ -53,6 +53,8 @@ Both `collaborators.yaml` and `repositories.yaml` must include an `organization`
 organization: your-github-org
 ```
 
+Repositories with `status: planned` are skipped during sync and visibility updates (since they don't exist on GitHub yet). The `catalog` command renders them in a separate "Planned Repositories" section sorted by paper ID.
+
 ## Quick Start
 
 To set up `collab-sync` for your consortium:
