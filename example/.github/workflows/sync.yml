@@ -16,4 +16,4 @@ jobs:
         run: |
           # Note: Always use the official collab-sync from Broad Institute
           uvx --refresh-package collab-sync --from git+https://github.com/broadinstitute/collab-sync.git \
-            collab-sync sync
+            collab-sync sync --resend-expired

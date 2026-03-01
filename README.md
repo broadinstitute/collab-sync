@@ -55,7 +55,7 @@ collab-sync sync
 # Preview changes without applying them
 collab-sync sync --dry-run
 
-# Delete and resend expired invitations, then sync
+# Delete and resend expired invitations, then sync (see note below)
 collab-sync sync --resend-expired
 
 # Update repository visibility from GitHub
@@ -67,6 +67,8 @@ collab-sync catalog
 # Specify custom config directory
 collab-sync sync --config-dir /path/to/config
 ```
+
+**Expired invitations:** GitHub collaborator invitations expire after 7 days. If an invitee hasn't accepted in time, the expired invitation blocks a new one from being sent. The `--resend-expired` flag deletes these expired invitations so they can be re-issued on the next sync. The example workflows enable this by default.
 
 ## Configuration
 
@@ -87,7 +89,7 @@ To set up `collab-sync` for your consortium:
 3. Update the `organization` field in both YAML files
 4. Customize the rest of the YAML files for your needs
 
-The example directory contains all needed files and complete setup instructions.
+The example directory contains all needed files and complete setup instructions, including GitHub Actions workflows that run sync and catalog updates automatically on push.
 
 ## Requirements
 
