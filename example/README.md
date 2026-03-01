@@ -58,3 +58,28 @@ View at: https://[YOUR-ORG].github.io/[YOUR-REPO-NAME]/
 ### ⬆️ DELETE EVERYTHING ABOVE THIS LINE AFTER SETUP ⬆️
 
 ---
+
+<!-- Template sections below — fill in and remove HTML comments after setup -->
+
+## Request Access
+
+<!-- Describe how new collaborators request access (e.g., a Google Form, an issue template, or an email address). -->
+
+## Repositories
+
+Browse the full catalog at: https://[YOUR-ORG].github.io/[YOUR-REPO-NAME]/
+
+<!-- The catalog is auto-generated from repositories.yaml. Add a brief description of the repository categories your consortium uses. -->
+
+## Contributing
+
+<!-- Describe how contributors can find and pick up tasks (e.g., a project board, issue labels). -->
+
+## How This Repo Works
+
+This repo uses [collab-sync](https://github.com/broadinstitute/collab-sync) to manage GitHub collaborator access declaratively. See [How It Works](https://github.com/broadinstitute/collab-sync#how-it-works) for the authority model and sync directions.
+
+Two GitHub Actions workflows keep everything in sync:
+
+- **Sync Collaborators** — runs on every push to a YAML file; applies permission changes to GitHub
+- **Update Catalog** — runs weekly (and on push to `repositories.yaml`); syncs repo visibility from GitHub and deploys the catalog to GitHub Pages
