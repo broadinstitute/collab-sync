@@ -21,7 +21,7 @@ If GitHub Teams eventually allows outside collaborators to join teams, much of t
 
 ## How It Works
 
-`collab-sync` uses a **dual-authority model** — each config file has a clear source of truth so changes always flow in one direction:
+Each config file has a clear source of truth, so changes always flow in one direction:
 
 | File | Source of truth | Sync direction |
 | ---- | --------------- | -------------- |

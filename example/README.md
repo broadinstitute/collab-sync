@@ -77,7 +77,7 @@ Browse the full catalog at: https://[YOUR-ORG].github.io/[YOUR-REPO-NAME]/
 
 ## How This Repo Works
 
-This repo uses [collab-sync](https://github.com/broadinstitute/collab-sync) to manage GitHub collaborator access declaratively. See [How It Works](https://github.com/broadinstitute/collab-sync#how-it-works) for the authority model and sync directions.
+This repo uses [collab-sync](https://github.com/broadinstitute/collab-sync) to manage GitHub collaborator access declaratively. See [How It Works](https://github.com/broadinstitute/collab-sync#how-it-works) for details on sync directions and sources of truth.
 
 Two GitHub Actions workflows keep everything in sync:
 
