@@ -20,12 +20,14 @@ View at: https://[YOUR-ORG].github.io/[YOUR-REPO-NAME]/
 
    **Option A: Using GitHub Web Interface**
    - Go to Settings → Secrets and variables → Actions
-   - Add `ADMIN_PAT`: GitHub Personal Access Token with `repo` scope
+   - Add `ADMIN_PAT`: A **classic** GitHub Personal Access Token with `repo` scope
 
    **Option B: Using GitHub CLI**
    ```bash
    gh secret set ADMIN_PAT --repo YOUR-ORG-NAME/YOUR-REPO-NAME
    ```
+
+   > **Note:** The token is tied to a specific GitHub account and inherits that account's repo access. The token owner must have **admin** access on every repo listed in `managed_repos` — otherwise the sync will fail with a 404. When adding a new repo, ensure the token owner has admin access on it before running the sync.
 
 3. **Enable GitHub Pages**:
    - Go to Settings → Pages
