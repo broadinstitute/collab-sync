@@ -13,8 +13,8 @@ def get_repo_visibility(org: str, repo_name: str) -> str | None:
         result = subprocess.run(["gh", "api", f"repos/{org}/{repo_name}"], capture_output=True, text=True, check=True)
         repo_data = json.loads(result.stdout)
         return "private" if repo_data["private"] else "public"
-    except subprocess.CalledProcessError:
-        print(f"Warning: Could not fetch data for {repo_name}")
+    except subprocess.CalledProcessError as e:
+        print(f"Warning: Could not fetch data for {repo_name}: {e.stderr.strip()} {e.stdout.strip()}")
         return None
 
 
