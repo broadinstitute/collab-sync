@@ -13,13 +13,18 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)-8s %(message)s", st
 logger = logging.getLogger(__name__)
 
 
+def gh_error(result: subprocess.CompletedProcess) -> str:
+    """Return gh's one-line summary (stderr) plus GitHub's response body (stdout), which carries the actual reason."""
+    return f"{result.stderr.strip()} {result.stdout.strip()}"
+
+
 def delete_expired_invitations(org: str, repo: str, dry_run: bool = False) -> None:
     """Delete expired invitations for a repository."""
     cmd = ["gh", "api", f"repos/{org}/{repo}/invitations", "--paginate"]
     result = subprocess.run(cmd, capture_output=True, text=True)
 
     if result.returncode != 0:
-        logger.error(f"Failed to get invitations for {repo}: {result.stderr}")
+        logger.error(f"Failed to get invitations for {repo}: {gh_error(result)}")
         return
 
     invitations = json.loads(result.stdout)
@@ -39,7 +44,7 @@ def delete_expired_invitations(org: str, repo: str, dry_run: bool = False) -> No
                 if delete_result.returncode == 0:
                     logger.info(f"✓ Deleted expired invitation: {username} <- {repo}")
                 else:
-                    logger.error(f"✗ Failed to delete invitation for {username} <- {repo}: {delete_result.stderr}")
+                    logger.error(f"✗ Failed to delete invitation for {username} <- {repo}: {gh_error(delete_result)}")
 
     if expired_count == 0:
         logger.info(f"No expired invitations for {repo}")
@@ -97,12 +102,11 @@ def sync_collaborators(config_dir: Path, dry_run: bool = False, resend_expired: 
             else:
                 cmd = ["gh", "api", f"repos/{org}/{repo}/collaborators/{username}", "-X", "PUT", "-f", f"permission={permission}"]
                 logger.info(f"Running: {cmd}")
-                result = subprocess.run(cmd, capture_output=True)
+                result = subprocess.run(cmd, capture_output=True, text=True)
                 if result.returncode == 0:
                     logger.info(f"✓ Synced {username} -> {repo} ({permission})")
                 else:
-                    error_msg = result.stderr.decode()
-                    logger.error(f"✗ Failed to sync {username} -> {repo}: {error_msg}")
+                    logger.error(f"✗ Failed to sync {username} -> {repo}: {gh_error(result)}")
                     has_errors = True
 
     # Remove unlisted collaborators (after ensuring we have access)
@@ -141,11 +145,10 @@ def sync_collaborators(config_dir: Path, dry_run: bool = False, resend_expired: 
                         if result.returncode == 0:
                             logger.info(f"✓ Removed {username} <- {repo}")
                         else:
-                            logger.error(f"✗ Failed to remove {username} <- {repo}: {result.stderr}")
+                            logger.error(f"✗ Failed to remove {username} <- {repo}: {gh_error(result)}")
                             has_errors = True
         else:
-            error_msg = result.stderr
-            logger.error(f"Failed to get collaborators for {repo}: {error_msg}")
+            logger.error(f"Failed to get collaborators for {repo}: {gh_error(result)}")
             has_errors = True
 
     if dry_run:
